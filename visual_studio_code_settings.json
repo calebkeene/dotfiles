@@ -1,0 +1,11 @@
+{
+    "sublimeTextKeymap.promptV3Features": true,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.snippetSuggestions": "top",
+    "editor.formatOnPaste": true,
+    "workbench.colorTheme": "Monokai",
+    "window.zoomLevel": -1,
+    "editor.tabSize": 2,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true
+}

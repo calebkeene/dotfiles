@@ -1,127 +1,74 @@
-# Path to your oh-my-zsh installation.
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
 export ZSH=/Users/calebkeene/.oh-my-zsh
-
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="agnoster"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-
-# User configuration
-
-export PATH="/Users/calebkeene/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
-# export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
+ZSH_THEME="robbyrussell"
+plugins=(git bundler osx rake ruby)
+export PATH="/usr/local/sbin:$PATH"
+source $ZSH/oh-my-zsh.sh
 export EDITOR='vim'
 
-# git
+alias gco="git checkout"
+alias gl="git log"
+alias gd="git diff"
+alias gs="git status"
+alias gc="git commit"
+alias gca="git add . && git commit"
 alias gp="git push origin"
 alias gpu="git pull origin"
-alias gd="git diff"
-alias gt="git tag"
-alias gft="git fetch --tags"
-alias gpt="git push --tags"
-alias gpo="git remote prune origin"
-alias commitnow="git add . && git commit"
-alias gco="git checkout"
-alias gc="git commit"
-alias gs="git status"
-alias gl="git log"
-alias ga="git add"
-alias latest_tags='git log --tags --oneline --decorate --simplify-by-decoration'
-alias lt='git fetch --tags && git describe --abbrev=0 --tags'
+alias gpuc="git pull origin $(git branch | grep "*" | awk {'print $2'})"
+alias gpc="git push origin HEAD"
 
-# bundle, deployment
+alias dc="docker-compose"
+alias docker-container-cleanup="sudo docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm"
+alias docker-image-cleanup="docker rmi $(docker images | grep '^<none>' | awk '{print $3}')"
+alias gpb="git push origin $(git rev-parse --abbrev-ref HEAD)"
+alias postgres-start="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
+alias postgres-stop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
+alias runspecs="bundle exec rspec spec"
+alias cop="bundle exec rubocop -a -D"
 alias be="bundle exec"
-alias bu="bundle update"
-alias blg="bundle list | grep"
-alias csd="bundle exec cap staging docker:deploy"
-alias cpd="bundle exec cap production deploy"
+alias dbmigrate="bundle exec rake db:migrate"
+alias dbseed="bundle exec rake db:seed"
 
-# rails development
-alias rs="bundle exec rails s"
-alias rc="bundle exec rails c" 
-alias fs="bundle exec foreman start -f Procfile.dev"
-alias rsk="kill -9 $(lsof -i tcp:3000 -t)"
+alias subl2="/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl"
+alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
+alias code="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
 
-# rails db
-alias dbc="bundle exec rake db:create"
-alias dbm="bundle exec rake db:migrate"
-alias rgm="bundle exec rails g migration"
-alias rdm="bundle exec rails d migration"
-alias rr="bundle exec rake routes"
+alias oshpark-cucumber="bundle exec cucumber --tags @javascript --tags ~@wip"
+alias cc="echo '!!' | xclip"
+alias fms="bundle exec foreman start -f"
+alias js="bundle exec jekyll serve -I -L"
 
-alias reloadrc="source ~/.zshrc"
-alias dockerssh="ssh deploy@223.165.64.74"
-alias docker2ssh="ssh deploy@223.165.66.112"
+alias db-unpack="tar xvf database.tar && gzip -d database/databases/PostgreSQL.sql.gz"
+alias rz="source ~/.zshrc"
+
+function pid-by-port() {
+  if [ "$1" != "" ]
+  then
+    lsof -i tcp:"$1" | awk 'FNR==2{print $2}'
+  else
+    echo "Missing argument! Usage: pid-by-port $PORT"
+  fi
+}
+
+function kill-by-port {
+  if [ "$1" != "" ]
+  then
+    kill -9 $(lsof -ni tcp:"$1" | awk 'FNR==2{print $2}')
+  else
+    echo "Missing argument! Usage: kill-by-port $PORT"
+  fi
+}
+
+function chrome() {
+  if [ "$1" == "" ]
+  then
+    echo "incorrect usage - please pass file to open in chrome"
+  else
+    open -a "Google Chrome" "$1"
+  fi
+}
