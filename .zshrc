@@ -1,13 +1,16 @@
 export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+export PATH="/usr/local/opt/qt/bin:$PATH"
+export PATH="/usr/local/opt/curl/bin:$PATH"
 
-export ZSH=/Users/calebkeene/.oh-my-zsh
+eval "$(rbenv init -)"
+export ZSH=/Users/caleb/.oh-my-zsh
 
 source $ZSH/oh-my-zsh.sh
 
 ZSH_THEME="robbyrussell"
 plugins=(git bundler osx rake ruby)
 export PATH="/usr/local/sbin:$PATH"
+export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
 source $ZSH/oh-my-zsh.sh
 export EDITOR='vim'
 
@@ -22,9 +25,6 @@ alias gpu="git pull origin"
 alias gpuc="git pull origin $(git branch | grep "*" | awk {'print $2'})"
 alias gpc="git push origin HEAD"
 
-alias dc="docker-compose"
-alias docker-container-cleanup="sudo docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm"
-alias docker-image-cleanup="docker rmi $(docker images | grep '^<none>' | awk '{print $3}')"
 alias gpb="git push origin $(git rev-parse --abbrev-ref HEAD)"
 alias postgres-start="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
 alias postgres-stop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
@@ -72,3 +72,4 @@ function chrome() {
     open -a "Google Chrome" "$1"
   fi
 }
+
